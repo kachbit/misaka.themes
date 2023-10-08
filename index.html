@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Button List</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Aboreto&family=Baloo+2:wght@500&display=swap');
+
+h1,h2,h3 {
+margin:20px;
+text-align:center;
+}
+.btn-a {
+padding:10px;font-family: 'Baloo 2';cursor:pointer;background:transparent;color:#9198ab;border:2px solid #9198ab;transition:all 0.2s ease-in-out;user-select:none;backdrop-filter: blur(8px);-webkit-backdrop-filter: blur(8px);border-radius:0px;margin:3px;min-width:40px;font-size:18px;
+}
+.btn-a:hover {
+background:#4d4f5723;color:#4f535e;border-color:#4f535e;transition:all 0.2s ease-in-out;
+}
+button {
+padding:12px;font-family: 'Baloo 2';cursor:pointer;background:rgba(37, 37, 37, 0.747);color:rgba(240,240,240,0.7);border:2px solid rgba(99,99,99,0.5);transition:all 0.2s ease-in-out;user-select:none;backdrop-filter: blur(8px);-webkit-backdrop-filter: blur(8px);border-radius:7px;margin:3px;min-width:40px;font-size:18px;height:fit-content;
+}
+button:hover {
+background:rgba(0, 0, 0, 0.847);color:#7e7e7e;transition:all 0.2s ease-in-out;
+}
+body {
+background:#222222;
+color:#9fa3ab;
+font-family:Trebuchet MS, sans-serif;
+}
+input[type=text], select {
+background:#000000;
+   padding: 12px 20px;
+  margin: 8px 0;
+  border:3px solid rgba(200,200,200,0.6);
+  border-radius:3px;
+  box-sizing: border-box;
+  outline:none;
+  color: rgba(240,240,240,0.8);
+  font-size: 16px;
+  
+}
+
+input[type=text]:focus, select:focus {
+transition: all .6s;
+  border: 3px solid #d2d3d6;
+}
+
+
+textarea {
+  width: 100%;
+  height: 150px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  resize: none;
+  outline:none;
+  background:black;
+  color: #ccc;
+}
+
+
+
+    
+    .button-list {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .button-list li {
+      margin-bottom: 10px;
+    }
+
+    .big-button {
+      display: block;
+      width: 200px;
+      height: 60px;
+      background-color: #007bff;
+      color: #fff;
+      text-align: center;
+      line-height: 60px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 18px;
+      border-radius: 10px;
+    }
+
+    #add-button {
+      margin-top: 20px;
+    }
+ 
+  </style>
+</head>
+<body>
+  <h1>Button List</h1>
+  <ul class="button-list" id="buttonList">
+    <!-- Buttons will be added here from local storage -->
+  </ul>
+  <div class="form">
+    <label for="buttonText">Button Text:</label>
+    <input style="display:inline" type="text" id="buttonText"><br>
+    <label for="buttonURL">Button URL:</label>
+    <input style="display:inline" type="text" id="buttonURL">
+   <br> <button id="add-button">Add</button>
+  </div>
+<div id="listdata"></div>
+  <script>
+    // Load existing buttons from local storage
+    const savedButtons = JSON.parse(localStorage.getItem("buttons")) || [];
+    const buttonList = document.getElementById("buttonList");
+
+    savedButtons.forEach((buttonData) => {
+      const listItem = document.createElement("li");
+      const newButton = document.createElement("a");
+      newButton.className = "big-button";
+      newButton.href = buttonData.url;
+      newButton.textContent = buttonData.text;
+      listItem.appendChild(newButton);
+      buttonList.appendChild(listItem);
+    });
+
+    document.getElementById("add-button").addEventListener("click", function () {
+      const buttonText = document.getElementById("buttonText").value;
+      const buttonURL = document.getElementById("buttonURL").value;
+
+      if (buttonText && buttonURL) {
+        // Create a new button
+        const listItem = document.createElement("li");
+        const newButton = document.createElement("a");
+        newButton.className = "big-button";
+        newButton.href = buttonURL;
+        newButton.textContent = buttonText;
+        listItem.appendChild(newButton);
+        buttonList.appendChild(listItem);
+
+        // Save the button data to local storage
+        savedButtons.push({ text: buttonText, url: buttonURL });
+        localStorage.setItem("buttons", JSON.stringify(savedButtons));
+listdata.innerText = JSON.stringify(savedButtons);
+        // Clear input fields
+        document.getElementById("buttonText").value = "";
+        document.getElementById("buttonURL").value = "";
+      }
+    });
+  </script>
+</body>
+</html>
